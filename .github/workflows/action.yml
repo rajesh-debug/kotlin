@@ -1,35 +1,21 @@
-name: Linters Action
-
-on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+name: reviewdog
+on: [pull_request]
 
 jobs:
-  linting_detekt:
-    if: github.event.pull_request.draft == false
-    name: Linters Detekt
+  detekt:
+    name: Check Code Quality
     runs-on: ubuntu-latest
+
     steps:
-      # checkout this repo
-      - name: Checkout Repo
+      - name: Clone repo
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
-      # checkout the private repo containing the action to run
-      - name: Checkout GitHub Action Repo
-        uses: actions/checkout@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_HUB_SECRET }}
+          fetch-depth: 1
+          ref: ${{ github.head_ref }}
+
+      - name: detekt
+        uses: DominuS-RU/Detekt-Action@v1.16.0
         with:
-          repository: rajesh-debug/linters
-          ref: v0.1
-          token: ${{ secrets.LINTERS_TOKEN }}
-          path: action.yml
-      - name: Run My Action
-        uses: ./action.yml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GIT_HUB_SECRET }}
-        with:
-          github_token: ${{ secrets.GIT_HUB_SECRET }}
-          reviewdog_reporter: github-pr-review
-          fail_on_error: false
+          github_token: ${{ secrets.github_token }}
+          detekt_config: detekt-config.yml # Change config path
+
