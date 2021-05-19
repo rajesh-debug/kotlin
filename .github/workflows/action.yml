@@ -1,0 +1,35 @@
+name: Linters Action
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  linting_detekt:
+    if: github.event.pull_request.draft == false
+    name: Linters Detekt
+    runs-on: ubuntu-latest
+    steps:
+      # checkout this repo
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      # checkout the private repo containing the action to run
+      - name: Checkout GitHub Action Repo
+        uses: actions/checkout@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_HUB_SECRET }}
+        with:
+          repository: rajesh-debug/linters
+          ref: v0.1
+          token: ${{ secrets.GIT_HUB_SECRET }}
+          path: action.yml
+      - name: Run My Action
+        uses: ./action.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_HUB_SECRET }}
+        with:
+          github_token: ${{ secrets.GIT_HUB_SECRET }}
+          reviewdog_reporter: github-pr-review
+          fail_on_error: false
