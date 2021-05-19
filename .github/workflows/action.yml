@@ -23,7 +23,7 @@ jobs:
         with:
           repository: rajesh-debug/linters
           ref: v0.2
-          token: ${{ secrets.LINTERS_TOKEN }}
+          token: ${{ secrets.GIT_HUB_SECRET }}
           path: action.yml
       - name: Run My Action
         uses: ./action.yml
