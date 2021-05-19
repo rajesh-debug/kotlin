@@ -4,7 +4,7 @@ author: 'renatoabreu11 (ScaCap)'
 
 inputs:
   github_token:
-    description: 'GITHUB_TOKEN'
+    description: 'GIT_HUB_TOKEN'
     required: true
   level:
     description: 'Report level for reviewdog [info,warning,error]'
