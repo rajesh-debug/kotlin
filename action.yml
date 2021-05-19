@@ -1,24 +1,52 @@
-name: 'Setup reviewdog'
-description: '🐶 This action sets up reviewdog'
-inputs:
-  reviewdog_version:
-    description: 'reviewdog version. [latest,nightly,vX.Y.Z]'
-    default: 'latest'
-runs:
-  using: 'composite'
-  steps:
-    - run: $GITHUB_ACTION_PATH/install.sh
-      shell: bash
-      env:
-        REVIEWDOG_VERSION: ${{ inputs.reviewdog_version }}
-        REVIEWDOG_TEMPDIR: ${{ runner.temp }}
-    - run: |
-        echo "::group::📖 reviewdog -h"
-        reviewdog -h 2>&1 || true
-        echo "::endgroup::"
-      shell: bash
+name: 'Run ktlint with reviewdog'
+description: '🐶 Run ktlint with reviewdog on pull requests to enforce best practices'
+author: 'renatoabreu11 (ScaCap)'
 
-# Ref: https://haya14busa.github.io/github-action-brandings/
+inputs:
+  github_token:
+    description: 'GITHUB_TOKEN'
+    required: true
+  level:
+    description: 'Report level for reviewdog [info,warning,error]'
+    required: false
+    default: 'error'
+  reporter:
+    description: |
+      Reporter of reviewdog command [github-pr-check,github-pr-review].
+      Default is github-pr-check.
+    required: false
+    default: 'github-pr-check'
+  fail_on_error:
+    description: |
+      Fails the current check if any error was found [true/false]
+      Default is false.
+    required: false
+    default: 'false'
+  filter_mode:
+    description: |
+      Filter mode of reviewdog command [added,diff_context,file,nofilter]
+      Default is added.
+    required: false
+    default: 'added'
+  relative:
+    description: Print files relative to the working directory
+    required: false
+    default: 'true'
+  android:
+    description: Run KtLint with Android Kotlin Style Guide
+    required: false
+    default: 'false'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.github_token }}
+    - ${{ inputs.level }}
+    - ${{ inputs.reporter }}
+    - ${{ inputs.fail_on_error }}
+    - ${{ inputs.filter_mode }}
+    - ${{ inputs.relative }}
+    - ${{ inputs.android }}
 branding:
-  icon: 'terminal'
-  color: 'gray-dark'
+  icon: 'edit'
+  color: 'blue'
