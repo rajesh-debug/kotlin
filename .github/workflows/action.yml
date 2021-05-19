@@ -19,17 +19,17 @@ jobs:
       - name: Checkout GitHub Action Repo
         uses: actions/checkout@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_HUB_SECRET }}
         with:
           repository: rajesh-debug/linters
           ref: v0.1
-          token: ${{ secrets.GIT_HUB_TOKEN }}
+          token: ${{ secrets.GIT_HUB_SECRET }}
           path: action.yml
       - name: Run My Action
         uses: ./action.yml
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GIT_HUB_SECRET }}
         with:
-          github_token: ${{ secrets.GIT_HUB_TOKEN }}
+          github_token: ${{ secrets.GIT_HUB_SECRET }}
           reviewdog_reporter: github-pr-review
           fail_on_error: false
