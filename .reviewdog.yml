@@ -1,38 +1,18 @@
-# reviewdog.yml
+name: reviewdog
+on: [pull_request]
+jobs:
+  ktlint:
+    name: Check Code Quality
+    runs-on: ubuntu-latest
 
-runner:
-  golint:
-    cmd: golint $(go list ./... | grep -v /vendor/)
-    format: golint
-    level: warning
-  govet:
-    cmd: go vet $(go list ./... | grep -v /vendor/)
-    format: govet
-  errcheck:
-    cmd: errcheck -asserts -ignoretests -blank $(go list ./... | grep -v /vendor/)
-    errorformat:
-      - "%f:%l:%c:%m"
-    level: warning
-  staticcheck:
-    cmd: staticcheck $(go list ./... | grep -v /vendor/)
-    errorformat:
-      - "%f:%l:%c: %m"
-  misspell:
-    cmd: misspell $(git ls-files)
-    errorformat:
-      - "%f:%l:%c: %m"
-  unparam:
-    cmd: unparam $(go list ./... | grep -v /vendor/)
-    errorformat:
-      - "%f:%l:%c: %m"
-  revive:
-    cmd: revive -config=.revive.toml $(go list ./... | grep -v /vendor/)
-    format: golint
-    level: warning
-  golangci:
-    cmd: golangci-lint run --out-format=line-number ./...
-    errorformat:
-      - '%E%f:%l:%c: %m'
-      - '%E%f:%l: %m'
-      - '%C%.%#'
-    level: warning
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+      - name: ktlint
+        uses: ScaCap/action-ktlint@master
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review # Change reporter
+          fail_on_error: false
