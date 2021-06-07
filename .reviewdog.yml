@@ -2,7 +2,7 @@
 
 runner:
   build:
-    cmd: build
+    cmd: ktlint
     errorformat:
       - "%f:%l:%c: %m"
 
