@@ -2,7 +2,7 @@
 
 runner:
   build:
-    cmd: build $(go list ./... | grep -v /vendor/)
+    cmd: build
     errorformat:
       - "%f:%l:%c: %m"
 
