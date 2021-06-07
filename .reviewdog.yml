@@ -3,6 +3,3 @@
 runner:
   ktlint:
     cmd: ktlint
-    errorformat:
-      - "%f:%l:%c: %m"
-
