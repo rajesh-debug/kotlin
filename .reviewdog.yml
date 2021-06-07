@@ -1,7 +1,7 @@
 # reviewdog.yml
 
 runner:
-  build:
+  ktlint:
     cmd: ktlint
     errorformat:
       - "%f:%l:%c: %m"
