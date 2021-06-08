@@ -1,7 +1,7 @@
 # reviewdog.yml
 
 runner:
-  misspell:
-    cmd: misspell $(git ls-files)
+  ktlint:
+    cmd: ktlint
     errorformat:
       - "%f:%l:%c: %m"
