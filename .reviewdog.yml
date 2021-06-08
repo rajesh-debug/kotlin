@@ -6,6 +6,6 @@ runner:
     errorformat:
       - "%f:%l:%c: %m"
   ktlint:
-    cmd: ktlint
+    cmd: /usr/local/bin/ktlint
     errorformat:
       - "%f:%l:%c: %m"
